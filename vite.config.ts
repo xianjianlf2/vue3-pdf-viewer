@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -7,6 +8,19 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': '/src',
+    },
+  },
+  build: {
+    lib: {
+      entry: resolve(__dirname, 'src/components/index.ts'),
+      name: 'PDFViewer',
+      fileName: 'PDFViewer',
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: { vue: 'Vue' },
+      },
     },
   },
 })

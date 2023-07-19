@@ -1,18 +1,47 @@
-# Vue 3 + TypeScript + Vite
+## @xianjianlf2/vue-pdf-view
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+@xianjianlf2/vue-pdf-view is a powerful npm library built on Pdf js, using the latest vite + vue3 + tailwind technologies. It supports virtual scrolling for smooth navigation in large PDF files and implements most features of pdf js, making it an ideal choice for handling PDF files in web applications.
 
-## Recommended IDE Setup
+## usage
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import PDFViewer from './components/PDFViewer.vue'
+import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
 
-## Type Support For `.vue` Imports in TS
+const showAllPage = ref(true)
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+/**
+ * @description:
+ * @param {showAllPage} {boolean}
+ * @param {pdfUrl} {string}
+ * @param {scale} {number} (optional)
+ * @param {scaleStep} {number} (optional)
+ * @param {maxScale} {number} (optional)
+ * @param {minScale} {number} (optional)
+ * @param {showToolbar} {boolean} (optional)
+ *
+ * event:
+ * @onProgress {function} (optional) (loadFileProcess: number)
+ *
+ * ref: PDFViewerRef.value.xxx
+ * @params {jumpToPage} {function} (optional) (page: number)
+ * @params {prevPage} {function} (optional)
+ * @params {nextPage} {function} (optional)
+ * @params {zoomIn} {function} (optional)
+ * @params {zoomOut} {function} (optional)
+ * @params {getCurrenPageNum} {function} (optional)
+ * @params {getScale} {function} (optional)
+ * @params {getTotalPageNum} {function} (optional)
+ *
+ */
+</script>
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+<template>
+  <PDFViewer v-model:showAllPage="showAllPage" :src="pdfUrl" />
+</template>
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+<style scoped></style>
+
+```
