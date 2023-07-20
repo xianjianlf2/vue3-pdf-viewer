@@ -3,9 +3,11 @@ import { computed, nextTick, onMounted, ref, toRaw } from 'vue'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist'
 import PdfWorker from 'pdfjs-dist/build/pdf.worker?url'
+import { RecycleScroller } from 'vue-virtual-scroller'
 import SingleViewer from './SingleViewer.vue'
-import { isBase64 } from '@/utils'
-import type { RecycleScrollerType } from '@/main'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+
+type RecycleScrollerType = InstanceType<typeof RecycleScroller>
 
 const props = defineProps({
   src: {
@@ -116,6 +118,11 @@ function generateLoadingTask(src: string) {
 
   else
     return getDocument({ url: src })
+}
+
+function isBase64(src: string) {
+  const reg = /^data:.*;base64,/
+  return reg.test(src)
 }
 
 async function loadPage(src: string) {
@@ -240,7 +247,7 @@ function handleUpdate(_startIndex: number, _endIndex: number, _visibleStartIndex
 </script>
 
 <template>
-  <div class="flex flex-col overflow-hidden h-screen">
+  <div class="flex flex-col overflow-hidden h-full">
     <div v-if="showToolbar">
       <div class="flex items-center justify-center">
         <button v-for="button in buttonGroup" :key="button.name" class="toolbox-button" @click="button.handler">

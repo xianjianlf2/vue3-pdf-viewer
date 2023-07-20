@@ -1,19 +1,29 @@
 {
   "name": "@xianjianlf2/vue-pdf-view",
   "type": "module",
-  "version": "1.0.1",
+  "version": "1.0.9",
+  "description": "A vue3 component for pdf viewer",
+  "author": "xianjianlf2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xianjianlf2/vue3-pdf-viewer.git"
+  },
+  "keywords": [
+    "vue3",
+    "pdf viewer",
+    "pdfjs"
+  ],
   "exports": {
     ".": {
-      "require": "./dist/PDFViewer.umd.js",
-      "import": "./dist/PDFViewer.esm.js"
+      "require": "./dist/pdf-viewer.umd.js",
+      "import": "./dist/pdf-viewer.js"
     },
     "./dist/style.css": "./dist/style.css"
   },
-  "main": "./dist/PDFViewer.umd.js",
-  "module": "./dist/PDFViewer.esm.js",
-  "files": [
-    "dist"
-  ],
+  "main": "./dist/pdf-viewer.umd.cjs",
+  "module": "./dist/pdf-viewer.js",
+  "types": "./dist/components/index.d.ts",
+  "files": ["dist"],
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
@@ -37,6 +47,7 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.0",
+    "vite-plugin-dts": "^3.3.1",
     "vitest": "^0.33.0",
     "vue-tsc": "^1.8.3"
   },

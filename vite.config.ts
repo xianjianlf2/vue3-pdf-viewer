@@ -1,10 +1,11 @@
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), dts()],
   resolve: {
     alias: {
       '@': '/src',
@@ -12,9 +13,9 @@ export default defineConfig({
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/components/index.ts'),
-      name: 'PDFViewer',
-      fileName: 'PDFViewer',
+      entry: resolve(__dirname, 'src/index.ts'),
+      name: 'PdfViewer',
+      fileName: 'pdf-viewer',
     },
     rollupOptions: {
       external: ['vue'],

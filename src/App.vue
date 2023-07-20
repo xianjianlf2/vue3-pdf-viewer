@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import PDFViewer from './components/PDFViewer.vue'
 import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
+import PdfViewer from '@/components/PdfViewer.vue'
 
 const showAllPage = ref(true)
 
@@ -32,7 +32,9 @@ const showAllPage = ref(true)
 </script>
 
 <template>
-  <PDFViewer v-model:showAllPage="showAllPage" :src="pdfUrl" />
+  <div class="h-screen">
+    <PdfViewer v-model:showAllPage="showAllPage" :src="pdfUrl" />
+  </div>
 </template>
 
 <style scoped></style>
