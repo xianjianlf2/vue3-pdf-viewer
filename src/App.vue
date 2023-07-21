@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+
+import { PdfViewer } from '@xianjianlf2/vue-pdf-viewer'
+import '@xianjianlf2/vue-pdf-viewer/dist/style.css'
 import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
-import PdfViewer from '@/components/PdfViewer.vue'
 
 const showAllPage = ref(true)
 

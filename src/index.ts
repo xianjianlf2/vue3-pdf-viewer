@@ -1,5 +1,6 @@
 import type { App } from 'vue'
-import PdfViewer from './components/PdfViewer.vue'
+import PdfViewer from './components/Viewer.vue'
+import './style.css'
 
 export { PdfViewer }
 

@@ -5,7 +5,11 @@ import dts from 'vite-plugin-dts'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), dts()],
+  plugins: [dts({
+    insertTypesEntry: true,
+    staticImport: true,
+    copyDtsFiles: true,
+  }), vue()],
   resolve: {
     alias: {
       '@': '/src',
@@ -15,10 +19,12 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'PdfViewer',
-      fileName: 'pdf-viewer',
+      fileName: format => `pdf-viewer.${format}.js`,
+
     },
     rollupOptions: {
       external: ['vue'],
+      input: resolve(__dirname, 'src/index.ts'),
       output: {
         globals: { vue: 'Vue' },
       },

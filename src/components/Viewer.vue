@@ -3,11 +3,11 @@ import { computed, nextTick, onMounted, ref, toRaw } from 'vue'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist'
 import PdfWorker from 'pdfjs-dist/build/pdf.worker?url'
-import { RecycleScroller } from 'vue-virtual-scroller'
+import { DynamicScroller } from 'vue-virtual-scroller'
 import SingleViewer from './SingleViewer.vue'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 
-type RecycleScrollerType = InstanceType<typeof RecycleScroller>
+type DynamicScrollerType = InstanceType<typeof DynamicScroller>
 
 const props = defineProps({
   src: {
@@ -160,7 +160,7 @@ function initRenderList() {
 }
 
 function updateScrollPosition(currentPage: number) {
-  (scrollContainerRef.value! as RecycleScrollerType).$el.scrollTop = (currentPage - 1) * itemHeight.value
+  (scrollContainerRef.value! as DynamicScrollerType).$el.scrollTop = (currentPage - 1) * itemHeight.value
 }
 
 function singlePageChange(pageNum: number) {
@@ -247,7 +247,7 @@ function handleUpdate(_startIndex: number, _endIndex: number, _visibleStartIndex
 </script>
 
 <template>
-  <div class="flex flex-col overflow-hidden h-full">
+  <div class="flex flex-col">
     <div v-if="showToolbar">
       <div class="flex items-center justify-center">
         <button v-for="button in buttonGroup" :key="button.name" class="toolbox-button" @click="button.handler">
@@ -262,24 +262,21 @@ function handleUpdate(_startIndex: number, _endIndex: number, _visibleStartIndex
     </div>
 
     <div class="overflow-auto h-full" :style="{ backgroundColor }">
-      <RecycleScroller
-        v-if="pdfDocument" v-slot="{ item }" ref="scrollContainerRef" class="scroller" :items="renderList"
-        :item-size="itemHeight" :buffer="bufferHeight" key-field="id" :update-interval="300" :emit-update="true"
+      <DynamicScroller
+        v-if="pdfDocument" v-slot="{ item }"
+        ref="scrollContainerRef" :min-item-size="itemHeight" :items="renderList"
+        key-field="id" :update-interval="300" :emit-update="true"
         @update="handleUpdate"
       >
         <div class="justify-center flex h-full">
           <SingleViewer :pdf-doc="toRaw(pdfDocument)" :page-num="item.id" :scale="scaleRef" />
         </div>
-      </RecycleScroller>
+      </DynamicScroller>
     </div>
   </div>
 </template>
 
 <style scoped>
-.scroller {
-  height: 100%;
-}
-
 .toolbox-button {
   border-width: 1px;
   border-radius: 0.5rem;
