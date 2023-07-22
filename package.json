@@ -1,9 +1,10 @@
 {
   "name": "@xianjianlf2/vue-pdf-viewer",
   "type": "module",
-  "version": "0.0.5",
+  "version": "0.0.11",
   "description": "A vue3 component for pdf viewer",
   "author": "xianjianlf2",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/xianjianlf2/vue3-pdf-viewer.git"
@@ -34,6 +35,7 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@xianjianlf2/vue-pdf-viewer": "link:dist",
     "pdfjs-dist": "^3.8.162",
     "vue": "^3.3.4",
     "vue-virtual-scroller": "2.0.0-beta.8"
@@ -41,18 +43,17 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
     "@vitejs/plugin-vue": "^4.2.3",
-    "@xianjianlf2/vue-pdf-viewer": "file:../vue-pdf-view",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.45.0",
     "lint-staged": "^13.2.3",
-    "postcss": "^8.4.26",
+    "postcss": "^8.4.27",
     "simple-git-hooks": "^2.8.1",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.1.6",
-    "vite": "^4.4.5",
+    "vite": "^4.4.6",
     "vite-plugin-dts": "^3.3.1",
     "vitest": "^0.33.0",
-    "vue-tsc": "^1.8.5"
+    "vue-tsc": "^1.8.6"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

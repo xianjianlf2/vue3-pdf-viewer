@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, toRaw } from 'vue'
-import type { PDFDocumentProxy } from 'pdfjs-dist'
+import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
+import { computed, nextTick, onMounted, ref, toRaw, watch } from 'vue'
+import { DynamicScroller } from 'vue-virtual-scroller'
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist'
 import PdfWorker from 'pdfjs-dist/build/pdf.worker?url'
-import { DynamicScroller } from 'vue-virtual-scroller'
-import SingleViewer from './SingleViewer.vue'
-import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
-
-type DynamicScrollerType = InstanceType<typeof DynamicScroller>
+import type { PDFDocumentProxy } from 'pdfjs-dist'
+import { SingleView } from '../'
 
 const props = defineProps({
   src: {
@@ -44,7 +42,7 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmits(['onProgress', 'update:showAllPage'])
+const emit = defineEmits(['onProgress', 'update:showAllPage', 'rendered'])
 
 defineExpose({
   jumpToPage,
@@ -70,7 +68,7 @@ const { buttonGroup } = useButtonGroup()
 const scrollContainerRef = ref<HTMLDivElement>()
 
 const itemHeight = ref(300)
-const bufferHeight = ref(150)
+const bufferHeight = ref()
 const renderList = ref<{ id: number }[]>([])
 
 const showAllPageRef = computed({
@@ -81,6 +79,10 @@ const showAllPageRef = computed({
       initRenderList()
     })
   },
+})
+
+watch(() => props.src, () => {
+  initializePage()
 })
 
 onMounted(initializePage)
@@ -158,7 +160,7 @@ function initRenderList() {
     }]
   }
 }
-
+type DynamicScrollerType = InstanceType<typeof DynamicScroller>
 function updateScrollPosition(currentPage: number) {
   (scrollContainerRef.value! as DynamicScrollerType).$el.scrollTop = (currentPage - 1) * itemHeight.value
 }
@@ -215,15 +217,16 @@ function jumpToPage(num: number) {
 }
 
 async function getItemHeight() {
-  let height = 300
   const pdfDoc = toRaw(pdfDocument.value)
   const page = await pdfDoc!.getPage(1)
   totalPageNum.value = pdfDoc!.numPages
-  // Support HiDPI-screens.
+
   const outputScale = window.devicePixelRatio || 1
   const viewport = page.getViewport({ scale: scaleRef.value })
-  height = Math.floor(viewport.height * outputScale)
+  const height = Math.floor(viewport.height * outputScale)
+
   itemHeight.value = height
+  // current page index
   bufferHeight.value = Math.floor(height * 0.5)
 }
 
@@ -239,51 +242,39 @@ function getTotalPageNum() {
   return totalPageNum.value
 }
 
-function handleUpdate(_startIndex: number, _endIndex: number, _visibleStartIndex: number, visibleEndIndex: number) {
+function handleUpdate(_startIndex: number, _endIndex: number, _visibleStartIndex: number, _visibleEndIndex: number) {
   if (!showAllPageRef.value)
     return
-  visibleEndIndex && (currentPageNum.value = visibleEndIndex)
+  currentPageNum.value = _visibleEndIndex
+  emit('rendered')
 }
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <div v-if="showToolbar">
-      <div class="flex items-center justify-center">
-        <button v-for="button in buttonGroup" :key="button.name" class="toolbox-button" @click="button.handler">
-          {{ button.name }}
-        </button>
-      </div>
-      <div class="flex items-center justify-center gap-2">
-        <span>{{ `${currentPageNum} / ${totalPageNum}` }}</span>
-        <input id="checkbox" v-model="showAllPageRef" type="checkbox">
-        <label for="checkbox">Show All Page</label>
-      </div>
+  <div v-if="showToolbar">
+    <div class="flex items-center justify-center">
+      <button v-for="button in buttonGroup" :key="button.name" class="border rounded-lg p-2 bg-gray-500 text-white" @click="button.handler">
+        {{ button.name }}
+      </button>
     </div>
-
-    <div class="overflow-auto h-full" :style="{ backgroundColor }">
-      <DynamicScroller
-        v-if="pdfDocument" v-slot="{ item }"
-        ref="scrollContainerRef" :min-item-size="itemHeight" :items="renderList"
-        key-field="id" :update-interval="300" :emit-update="true"
-        @update="handleUpdate"
-      >
-        <div class="justify-center flex h-full">
-          <SingleViewer :pdf-doc="toRaw(pdfDocument)" :page-num="item.id" :scale="scaleRef" />
-        </div>
-      </DynamicScroller>
+    <div class="flex items-center justify-center gap-2">
+      <span>{{ `${currentPageNum} / ${totalPageNum}` }}</span>
+      <input id="checkbox" v-model="showAllPageRef" type="checkbox">
+      <label for="checkbox">Show All Page</label>
     </div>
   </div>
-</template>
 
-<style scoped>
-.toolbox-button {
-  border-width: 1px;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-</style>
+  <div class="h-full" :style="{ backgroundColor }">
+    <DynamicScroller
+      v-if="pdfDocument"
+      ref="scrollContainerRef" v-slot="{ item }" :min-item-size="itemHeight" :items="renderList" key-field="id"
+      :update-interval="300" :emit-update="true" :buffer="bufferHeight"
+      :style="{ height: `${itemHeight}px` }"
+      @update="handleUpdate"
+    >
+      <div class="justify-center flex">
+        <SingleView :pdf-doc="toRaw(pdfDocument)" :page-num="item.id" :scale="scaleRef" />
+      </div>
+    </DynamicScroller>
+  </div>
+</template>

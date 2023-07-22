@@ -1,11 +1,11 @@
 import type { App } from 'vue'
-import PdfViewer from './components/Viewer.vue'
 import './style.css'
+import { PdfViewer } from './components/'
 
-export { PdfViewer }
+export * from './components/'
 
 export default {
   install: (app: App) => {
-    app.component('PdfViewer', PdfViewer)
+    app.component(PdfViewer.name, PdfViewer)
   },
 }

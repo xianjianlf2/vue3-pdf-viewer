@@ -18,6 +18,8 @@ const props = defineProps({
   },
 })
 
+const emit = defineEmits(['rendered'])
+
 const canvasRef = ref<HTMLCanvasElement>()
 const pageRendering = ref(false)
 const pageNumPending = ref<null | number>(null)
@@ -27,6 +29,9 @@ watch(() => props.pageNum, (val) => {
 })
 watch(() => props.scale, () => {
   queueRenderPage(props.pageNum)
+})
+watch(() => props.pdfDoc, () => {
+  queueRenderPage(1)
 })
 
 function checkCanvasRef() {
@@ -56,6 +61,8 @@ async function renderPage(pageNum: number) {
   const renderTask = page.render(renderContext)
   await renderTask.promise
   pageRendering.value = false
+  emit('rendered')
+
   if (pageNumPending.value !== null) {
     renderPage(pageNumPending.value)
     pageNumPending.value = null

@@ -2,6 +2,10 @@
 
 @xianjianlf2/vue-pdf-view is a npm library built on Pdf js, using the latest vite + vue3 + tailwind technologies. It supports virtual scrolling for smooth navigation in large PDF files and implements most features of pdf js, making it an ideal choice for handling PDF files in web applications.
 
+![](https://img.shields.io/badge/version-0.0.11-blue)
+
+### Additional features are being updated on an ongoing basis
+
 ## Feature
 
 - [x] Jump To Page
@@ -16,13 +20,17 @@
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-
+import type { PdfViewInstance } from '@xianjianlf2/vue-pdf-viewer'
 import { PdfViewer } from '@xianjianlf2/vue-pdf-viewer'
-import '@xianjianlf2/vue-pdf-viewer/dist/style.css'
 import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
+import '@xianjianlf2/vue-pdf-viewer/dist/style.css'
 
 const showAllPage = ref(true)
-
+const pdfViewerRef = ref<PdfViewInstance>()
+// if use customer toolbar, it can get latest page num
+function handleRendered() {
+  pdfViewerRef.value?.getCurrenPageNum()
+}
 /**
  * @description:
  * @param {showAllPage} {boolean}
@@ -51,7 +59,7 @@ const showAllPage = ref(true)
 
 <template>
   <div class="h-screen">
-    <PdfViewer v-model:showAllPage="showAllPage" :src="pdfUrl" />
+    <PdfViewer ref="pdfViewerRef" v-model:showAllPage="showAllPage" :src="pdfUrl" @rendered="handleRendered" />
   </div>
 </template>
 

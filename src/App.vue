@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+import type { PdfViewInstance } from '@xianjianlf2/vue-pdf-viewer'
 import { PdfViewer } from '@xianjianlf2/vue-pdf-viewer'
-import '@xianjianlf2/vue-pdf-viewer/dist/style.css'
+
+// import { PdfViewer } from './components'
+
+import '@xianjianlf2/vue-pdf-viewer/style.css'
 import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
 
 const showAllPage = ref(true)
+const pdfViewerRef = ref<PdfViewInstance>()
 
+function handleRendered() {
+  pdfViewerRef.value?.getCurrenPageNum()
+}
 /**
  * @description:
  * @param {showAllPage} {boolean}
@@ -35,7 +43,7 @@ const showAllPage = ref(true)
 
 <template>
   <div class="h-screen">
-    <PdfViewer v-model:showAllPage="showAllPage" :src="pdfUrl" />
+    <PdfViewer ref="pdfViewerRef" v-model:showAllPage="showAllPage" :src="pdfUrl" @rendered="handleRendered" />
   </div>
 </template>
 
