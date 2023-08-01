@@ -2,12 +2,12 @@
 import { ref } from 'vue'
 
 import type { PdfViewInstance } from '@xianjianlf2/vue-pdf-viewer'
-import { PdfViewer } from '@xianjianlf2/vue-pdf-viewer'
 
 // import { PdfViewer } from './components'
 
-import '@xianjianlf2/vue-pdf-viewer/style.css'
+// import '@xianjianlf2/vue-pdf-viewer/style.css'
 import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
+import { PdfViewerSearch } from './components'
 
 const showAllPage = ref(true)
 const pdfViewerRef = ref<PdfViewInstance>()
@@ -43,7 +43,8 @@ function handleRendered() {
 
 <template>
   <div class="h-screen">
-    <PdfViewer ref="pdfViewerRef" v-model:showAllPage="showAllPage" :src="pdfUrl" @rendered="handleRendered" />
+    <PdfViewerSearch :src="pdfUrl" />
+    <!-- <PdfViewer ref="pdfViewerRef" v-model:showAllPage="showAllPage" :src="pdfUrl" @rendered="handleRendered" /> -->
   </div>
 </template>
 

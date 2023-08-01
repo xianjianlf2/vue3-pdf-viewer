@@ -2,7 +2,7 @@
 
 @xianjianlf2/vue-pdf-view is a npm library built on Pdf js, using the latest vite + vue3 + tailwind technologies. It supports virtual scrolling for smooth navigation in large PDF files and implements most features of pdf js, making it an ideal choice for handling PDF files in web applications.
 
-![](https://img.shields.io/badge/version-0.0.11-blue)
+![](https://img.shields.io/badge/version-0.1.1-blue)
 
 ### Additional features are being updated on an ongoing basis
 
@@ -11,7 +11,7 @@
 - [x] Jump To Page
 - [x] Prev Page / Next Page
 - [x] zoom in  / zoom out
-- [ ] find text
+- [x] find text (PdfViewerSearch Component)
 - [ ] note
 
 ## usage
@@ -65,3 +65,40 @@ function handleRendered() {
 
 <style scoped></style>
 ```
+
+## PdfViewerSearch
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+
+import { PdfViewerSearch } from '@xianjianlf2/vue-pdf-viewer'
+
+import '@xianjianlf2/vue-pdf-viewer/style.css'
+import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
+
+/**
+ * @description:
+ * @param {src} {boolean}
+ * @param {scale} {string}
+ * @param {backgroundColor} {number} (optional)
+ * @param {maxScale} {number} (optional)
+ * @param {minScale} {number} (optional)
+ * @param {scaleStep} {number} (optional)
+ * @param {showSearchBar} {boolean} (optional)
+ *
+ * when press ctrl + f / cmd + f, focus on search input
+ *
+ */
+</script>
+
+<template>
+  <div class="h-screen">
+    <PdfViewerSearch :src="pdfUrl" />
+  </div>
+</template>
+
+<style scoped></style>
+
+```
+

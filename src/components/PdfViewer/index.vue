@@ -2,10 +2,11 @@
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import { computed, nextTick, onMounted, ref, toRaw, watch } from 'vue'
 import { DynamicScroller } from 'vue-virtual-scroller'
-import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist'
+import { GlobalWorkerOptions } from 'pdfjs-dist'
 import PdfWorker from 'pdfjs-dist/build/pdf.worker?url'
 import type { PDFDocumentProxy } from 'pdfjs-dist'
 import { SingleView } from '../'
+import { loadPdf } from '../../utils'
 
 const props = defineProps({
   src: {
@@ -34,7 +35,7 @@ const props = defineProps({
   },
   backgroundColor: {
     type: String,
-    default: '#9CA3AF',
+    default: '#808080',
   },
   showToolbar: {
     type: Boolean,
@@ -88,7 +89,7 @@ watch(() => props.src, () => {
 onMounted(initializePage)
 
 async function initializePage() {
-  await loadPage(props.src)
+  await loadPdf(props.src)
 
   if (!checkDocumentLoaded())
     return
@@ -114,34 +115,6 @@ function useButtonGroup() {
   return { buttonGroup }
 }
 
-function generateLoadingTask(src: string) {
-  if (isBase64(src))
-    return getDocument({ data: atob(src) })
-
-  else
-    return getDocument({ url: src })
-}
-
-function isBase64(src: string) {
-  const reg = /^data:.*;base64,/
-  return reg.test(src)
-}
-
-async function loadPage(src: string) {
-  const loadingTask = generateLoadingTask(src)
-  loadingTask.onProgress = (progressData: { loaded: number; total: number }) => {
-    const { loaded, total } = progressData
-    emit('onProgress', (loaded / total * 100).toFixed(2))
-  }
-  try {
-    pdfDocument.value = await loadingTask.promise
-  }
-  catch
-  (reason) {
-    console.error(reason)
-  }
-}
-
 function checkDocumentLoaded() {
   return !!pdfDocument.value?.numPages
 }
@@ -160,6 +133,7 @@ function initRenderList() {
     }]
   }
 }
+
 type DynamicScrollerType = InstanceType<typeof DynamicScroller>
 function updateScrollPosition(currentPage: number) {
   (scrollContainerRef.value! as DynamicScrollerType).$el.scrollTop = (currentPage - 1) * itemHeight.value

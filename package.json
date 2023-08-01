@@ -1,7 +1,7 @@
 {
   "name": "@xianjianlf2/vue-pdf-viewer",
   "type": "module",
-  "version": "0.0.11",
+  "version": "0.1.1",
   "description": "A vue3 component for pdf viewer",
   "author": "xianjianlf2",
   "license": "MIT",
@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.39.8",
+    "@iconify/vue": "^4.1.1",
     "@vitejs/plugin-vue": "^4.2.3",
     "autoprefixer": "^10.4.14",
     "eslint": "^8.45.0",
