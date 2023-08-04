@@ -1,5 +1,14 @@
 import PdfViewerSearch from './index.vue'
 
-export { PdfViewerSearch }
+import type { PdfViewerSearchConfig } from './useConfig'
 
-export type PdfViewerSearchInstance = InstanceType<typeof PdfViewerSearch>
+type PdfViewerSearchInstance = InstanceType<typeof PdfViewerSearch>
+
+export {
+  PdfViewerSearch,
+}
+
+export type {
+  PdfViewerSearchConfig,
+  PdfViewerSearchInstance,
+}

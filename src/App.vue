@@ -1,50 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-import type { PdfViewInstance } from '@xianjianlf2/vue-pdf-viewer'
-
-// import { PdfViewer } from './components'
-
-// import '@xianjianlf2/vue-pdf-viewer/style.css'
+import { PdfViewerSearch } from '@xianjianlf2/vue-pdf-viewer'
+import type { PdfViewerSearchConfig } from '@xianjianlf2/vue-pdf-viewer'
+import '@xianjianlf2/vue-pdf-viewer/style.css'
 import pdfUrl from './assets/pdf/922_towards_understanding_why_mask.pdf?url'
-import { PdfViewerSearch } from './components'
 
-const showAllPage = ref(true)
-const pdfViewerRef = ref<PdfViewInstance>()
-
-function handleRendered() {
-  pdfViewerRef.value?.getCurrenPageNum()
+const pdfViewerSearchConfig: PdfViewerSearchConfig = {
+  scale: {
+    maxScale: 3.0,
+    minScale: 0.5,
+    scaleStep: 0.5,
+  },
+  backgroundColor: '#808080',
+  singlePageMode: false,
+  enableSearchBox: true,
+  enableToolbar: true,
 }
-/**
- * @description:
- * @param {showAllPage} {boolean}
- * @param {pdfUrl} {string}
- * @param {scale} {number} (optional)
- * @param {scaleStep} {number} (optional)
- * @param {maxScale} {number} (optional)
- * @param {minScale} {number} (optional)
- * @param {showToolbar} {boolean} (optional)
- *
- * event:
- * @onProgress {function} (optional) (loadFileProcess: number)
- *
- * ref: PDFViewerRef.value.xxx
- * @params {jumpToPage} {function} (optional) (page: number)
- * @params {prevPage} {function} (optional)
- * @params {nextPage} {function} (optional)
- * @params {zoomIn} {function} (optional)
- * @params {zoomOut} {function} (optional)
- * @params {getCurrenPageNum} {function} (optional)
- * @params {getScale} {function} (optional)
- * @params {getTotalPageNum} {function} (optional)
- *
- */
 </script>
 
 <template>
   <div class="h-screen">
-    <PdfViewerSearch :src="pdfUrl" />
-    <!-- <PdfViewer ref="pdfViewerRef" v-model:showAllPage="showAllPage" :src="pdfUrl" @rendered="handleRendered" /> -->
+    <PdfViewerSearch :src="pdfUrl" :config="pdfViewerSearchConfig" />
   </div>
 </template>
 
