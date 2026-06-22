@@ -1,6 +1,8 @@
 ## @xianjianlf2/vue-pdf-viewer
 
-A Vue 3 PDF viewer built on PDF.js with Vite + Tailwind. It supports virtual scrolling for smooth navigation in large PDF files and implements most PDF.js features, making it an ideal choice for handling PDFs in web applications.
+A Vue 3 PDF viewer built on PDF.js with Vite + Tailwind, exploring virtual scrolling for smooth navigation in large PDF files.
+
+> ⚠️ **Early-stage / learning project (v0.1.x).** Built in 2023 and not actively maintained — expect rough edges. Issues and PRs are welcome.
 
 [![npm version](https://img.shields.io/npm/v/@xianjianlf2/vue-pdf-viewer?color=cb3837&logo=npm)](https://www.npmjs.com/package/@xianjianlf2/vue-pdf-viewer)
 [![npm downloads](https://img.shields.io/npm/dm/@xianjianlf2/vue-pdf-viewer?color=cb3837&logo=npm)](https://www.npmjs.com/package/@xianjianlf2/vue-pdf-viewer)
