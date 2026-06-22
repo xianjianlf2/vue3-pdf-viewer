@@ -1,8 +1,10 @@
-## @xianjianlf2/vue-pdf-view
+## @xianjianlf2/vue-pdf-viewer
 
-@xianjianlf2/vue-pdf-view is a npm library built on Pdf js, using the latest vite + vue3 + tailwind technologies. It supports virtual scrolling for smooth navigation in large PDF files and implements most features of pdf js, making it an ideal choice for handling PDF files in web applications.
+A Vue 3 PDF viewer built on PDF.js with Vite + Tailwind. It supports virtual scrolling for smooth navigation in large PDF files and implements most PDF.js features, making it an ideal choice for handling PDFs in web applications.
 
-![](https://img.shields.io/badge/version-0.1.2-blue)
+[![npm version](https://img.shields.io/npm/v/@xianjianlf2/vue-pdf-viewer?color=cb3837&logo=npm)](https://www.npmjs.com/package/@xianjianlf2/vue-pdf-viewer)
+[![npm downloads](https://img.shields.io/npm/dm/@xianjianlf2/vue-pdf-viewer?color=cb3837&logo=npm)](https://www.npmjs.com/package/@xianjianlf2/vue-pdf-viewer)
+[![license](https://img.shields.io/npm/l/@xianjianlf2/vue-pdf-viewer?color=blue)](./LICENSE)
 
 ### Additional features are being updated on an ongoing basis
 
